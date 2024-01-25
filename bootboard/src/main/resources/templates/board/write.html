@@ -8,25 +8,38 @@
 <body>
     <div id="container">
         <h2>글쓰기</h2>
-        <form th:action="@{/board/write}" method="post" >
+        <form th:action="@{/board/write}" method="post" enctype="multipart/form-data"
+        	th:object="${boardDTO}">
+        	<div th:if="${#fields.hasAnyErrors()}" class="alert-danger">
+        		<div th:each="err: ${#fields.allErrors()}" 
+        				th:text="${err}"></div>
+        	
+        	</div>
         	<table class="tbl_list">
         		<tbody>
+        			<!-- th:fields="*{boardTitle}" name 속성 역할도 하고 
+        			제목을 유지시키는 기능을 함 -->
         		  <tr>
         		  	<td>
-        		  		<input type="text" name="boardTitle"
+        		  		<input type="text" th:field="*{boardTitle}"
         		  			placeholder="글 제목">
         		  	</td>
         		  </tr>
         		  <tr>
         		  	<td>
-        		  		<input type="text" name="boardWriter"
+        		  		<input type="text" name="boardWriter" 
         		  			th:value="${session.sessionName}">
         		  	</td>
         		  </tr>
         		  <tr>
         		  	<td>
-        		  		<textarea rows="5" cols="50" name="boardContent"
+        		  		<textarea rows="5" cols="50" th:field="*{boardContent}"
         		  				placeholder="글 내용"></textarea>
+        		  	</td>
+        		  </tr>
+        		   <tr>
+        		  	<td>
+        		  		<input type="file" name="boardFile">
         		  	</td>
         		  </tr>
         		  <tr>

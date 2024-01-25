@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">  <!-- security -->
+<head>
+<meta charset="UTF-8">
+<title>Index...</title>
+<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<!-- header.html 연결 -->
+	<div th:replace="~{/layout/header::header-fragment}"></div>
+
+    <div id="container">
+    	<!-- isAuthenticated(): 사용자가 로그인되어 있고, 유효한 세션을 가지고 있을 때 true를 반환 -->
+    	<div sec:authorize="isAuthenticated()">
+    		<p th:text="${#authentication.getPrincipal()}"></p> <!-- 현재 인증된 사용자의 주요 정보를 가져 -->
+    		<h3 sec:authentication="principal.member.name"></h3>
+    	</div>
+     
+         <!-- ${session.세션이름} -->
+		<!-- <h2 th:text="${session.sessMemberId} + '님 환영합니다.'"></h2> -->
+		<div class="menu">
+		   <a th:href="@{/member/logout}">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+		   	  <button type="button">로그아웃</button>
+		   </a>&nbsp; &nbsp;
+		   <!-- <a th:href="@{/member/update}"> -->
+		   <a th:href="@{|/member/update/${#authentication.principal.member.id}|}">
+		   	  <button type="button">나의정보 수정</button>
+		   </a>&nbsp; &nbsp;
+		   <a th:href="@{/}">
+		   	  <button type="button">홈으로</button>
+		   </a>
+		</div>
+	</div>
+	
+	<!-- footer.html 연결 -->
+	<div th:replace="~{/layout/footer::footer-fragment}"></div>
+</body>
+</html>

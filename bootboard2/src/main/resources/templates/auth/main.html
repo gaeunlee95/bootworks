@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>인증 메일...</title>
+</head>
+<body>
+	<!-- header.html 연결 -->
+	<div th:replace="~{/layout/header::header-fragment}"></div>
+
+	<h1>인증 및 권한 메인 페이지입니다.</h1>
+	<div>
+		<p><a th:href="@{/auth/member}">MEMBER</a></p>
+		<p><a th:href="@{/auth/admin}">ADMIN</a></p>
+	</div>
+	
+	<!-- footer.html 연결 -->
+	<div th:replace="~{/layout/footer::footer-fragment}"></div>
+</body>
+</html>

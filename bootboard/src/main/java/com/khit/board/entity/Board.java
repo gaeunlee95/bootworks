@@ -1,5 +1,6 @@
 package com.khit.board.entity;
 
+
 import com.khit.board.dto.BoardDTO;
 
 import jakarta.persistence.Column;
@@ -11,9 +12,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,12 +37,22 @@ public class Board extends BaseEntity{ //테이블이 생성되는 역할을 하
 	@Column
 	private Integer boardHits;
 	
+	//write.html에서 name 값과 다른 이름으로 만들것 
+	//MultipartFile과 String 타입이 서로 다르므로...
+	@Column
+	private String filename;
+	
+	@Column
+	private String filepath;
+	
 	//dto를 entity로 변환하는 정적 메서드
 	public static Board toSaveEntity(BoardDTO boardDTO) {
 		Board board = Board.builder()
 				.boardTitle(boardDTO.getBoardTitle())
 				.boardWriter(boardDTO.getBoardWriter())
 				.boardContent(boardDTO.getBoardContent())
+				.filename(boardDTO.getFilename())
+				.filepath(boardDTO.getFilepath())
 				.boardHits(0)
 				.build();
 		return board;
@@ -56,6 +65,8 @@ public class Board extends BaseEntity{ //테이블이 생성되는 역할을 하
 				.boardTitle(boardDTO.getBoardTitle())
 				.boardWriter(boardDTO.getBoardWriter())
 				.boardContent(boardDTO.getBoardContent())
+				.filename(boardDTO.getFilename())
+				.filepath(boardDTO.getFilepath())
 				.boardHits(boardDTO.getBoardHits())
 				.build();
 		return board;

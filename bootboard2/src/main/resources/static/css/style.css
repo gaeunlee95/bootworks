@@ -1,0 +1,50 @@
+@charset "UTF-8";
+#container {display: flex; flex-direction: column; border: outset 2px #ebebeb; border-radius: 10px; padding: 40px 0 80px 0;}
+h2{color: #b00; text-align: center}
+ul li{list-style: none; margin: 16px;}
+a{text-decoration: none;}
+
+fieldset{margin: 0 auto;width: 50%;border-radius: 10px;}
+
+/* index 스타일 */
+.main-img{text-align: center;}
+.menu{text-align: center;}
+
+/* join 스타일 */
+.joinform{width: 420px; margin: 0 auto;}
+.joinform label{width: 100px; float: left;}
+.joinform input{padding: 4px;}
+
+/* tbl_list 스타일 */
+.searchform{width: 700px; margin: 0 auto; text-align: right;
+  margin-bottom: 12px;}
+.sel_type{padding: 4px;}
+.tbl_list{width: 700px; margin: 0 auto;
+   border-collapse: collapse;}
+.tbl_list th, td{border: 1px solid #ccc; padding: 8px;
+  text-align: center;}
+.tbl_list input[type="text"]{width: 680px; height: 25px}
+.tbl_list textarea{width: 680px; height: 300px}
+.pagination{margin: 10px; text-align: center;}
+.pagination a{padding: 4px; text-decoration: underline;
+  color: #555;}
+.pagination span.current_page{color: #b00;}
+.btn_write{text-align: left; padding-left: 250px;}
+
+/* member detail 스타일 */  
+.detail{width: 420px; margin: 0 auto;}
+.detail label{width: 100px; float: left;}
+.detail input{padding: 4px;}
+
+/* login 스타일 */
+.error{color: #f00; font-size: 0.9em}
+
+.writeform{width: 800px; margin: 0 auto;}
+.alert-danger{padding-left: 60px; color: #b00;}
+
+/* header 스타일 */
+header {display: flex; justify-content: space-evenly; border: outset 2px #ebebeb; border-radius: 10px; margin-bottom: 3px;}
+header ul{display: flex; justify-content: space-evenly}
+  
+/* footer 스타일 */
+footer p{ height: 60px;margin-top: 3px;display: flex;border: outset 2px #ebebeb;border-radius: 10px;justify-content: center;align-items: center;}

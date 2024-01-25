@@ -26,6 +26,7 @@
        		  	<td>
        		  		<textarea rows="5" cols="50" name="boardContent"
        		  			th:text="${board.boardContent}" readonly></textarea>
+       		  			<img th:src="@{${board.filepath}}">
        		  	</td>
        		  </tr>
        		  <tr>
@@ -54,7 +55,7 @@
        		  			   <input type="button" value="삭제">
        		  			</a>
        		  	    </span>
-       		  		 <a th:href="@{/board/list}">
+       		  		 <a th:href="@{/board/pagelist(page=${page})}">
        		  			<input type="button" value="목록">
        		  		</a>
        		  	</td>

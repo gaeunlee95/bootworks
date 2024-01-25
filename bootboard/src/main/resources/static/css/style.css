@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-#container{width: 1200px; margin:30px auto;}
+#container{display: flex; flex-direction: column; align-items: center;}
 h2{color: #b00; text-align: center}
 ul li{list-style: none; margin: 16px;}
 a{text-decoration: none;}
@@ -29,4 +29,13 @@ a{text-decoration: none;}
 
 /* login 스타일 */
 .error{color: #f00; font-size: 0.9em}
-  
+
+/* pagelist 스타일 */
+.pagelist .pagination{text-align:center; margin-top: 10px;}
+.pagelist .current_page{color:blue; font-weight: bold; font-style: italic;}
+.pagelist .searchform{text-align: right; margin-bottom: 10px;}
+
+/* member_update 스타일 */
+.member_update #memberId:focus, #role:focus {outline: none; border: 1px solid #ccc;}
+
+	

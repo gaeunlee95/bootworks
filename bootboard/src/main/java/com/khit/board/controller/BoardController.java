@@ -1,20 +1,30 @@
 package com.khit.board.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.khit.board.dto.BoardDTO;
 import com.khit.board.service.BoardService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequestMapping("/board")
 @RequiredArgsConstructor
 @Controller
@@ -24,15 +34,22 @@ public class BoardController {
 	
 	//글쓰기 페이지
 	@GetMapping("/write")
-	public String writeForm() {
+	public String writeForm(BoardDTO boardDTO) {
 		return "/board/write";  //write.html
 	}
 	
 	//글쓰기 처리
 	@PostMapping("/write")
-	public String write(@ModelAttribute BoardDTO boardDTO) {
-		boardService.save(boardDTO);
-		return "redirect:/board/list";
+	public String write(@Valid BoardDTO boardDTO, 
+			BindingResult bindingResult,
+			MultipartFile boardFile) throws IllegalStateException, IOException {
+		if(bindingResult.hasErrors()) {  //에러가 있으면 글쓰기폼으로 이동
+			log.info("has errors.....");
+			return "/board/write";
+		}
+		//글쓰기 처리
+		boardService.save(boardDTO, boardFile);
+		return "redirect:/board/pagelist";
 	}
 	
 	//글목록
@@ -43,14 +60,54 @@ public class BoardController {
 		return "/board/list";
 	}
 	
+	//글목록(페이지)
+	//  /board/pagelist?page=0 : 1페이지 -> page=1 : 1페이지
+	//  /board/pagelist : 1페이지
+	@GetMapping("/pagelist")
+	public String getPageList(
+			@RequestParam(value="type", required=false) String type,
+			@RequestParam(value="keyword", required=false) String keyword,
+			@PageableDefault(page=1) Pageable pageable,
+			Model model) {
+		//검색어가 없으면 페이지 처리를 하고, 검색어가 있으면 검색어로 페이지 처리
+		Page<BoardDTO> boardDTOList = null;
+		if(keyword == null) {
+			boardDTOList = boardService.findListAll(pageable);
+		}else if(type != null && type.equals("title")) {
+			boardDTOList = boardService.findByBoardTitleContaining(keyword, pageable);
+		}else if(type != null && type.equals("content")) {
+			boardDTOList = boardService.findByBoardContentContaining(keyword, pageable);
+		}else if(type != null && type.equals("writer")) {
+			boardDTOList = boardService.findByBoardWriterContaining(keyword, pageable);
+		}
+		
+		//하단의 페이지 블럭 만들기
+		int blockLimit = 10;  //하단에 보여줄 페이지 개수
+		//시작 페이지 1, 11, 21  12/10 = 1.2 -> 2.0 -> (2-1)*10+1
+		int startPage = ((int)(Math.ceil((double)pageable.getPageNumber()/blockLimit))-1) * blockLimit + 1;
+		//마지막 페이지 10, 20, 30  
+		int endPage = (startPage+blockLimit-1) > boardDTOList.getTotalPages() ?
+				boardDTOList.getTotalPages() : startPage+blockLimit-1;;
+		
+		
+		model.addAttribute("boardList", boardDTOList);
+		model.addAttribute("type", type)
+;		model.addAttribute("kw", keyword);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+		return "/board/pagelist";
+	}
+	
 	//글 상세보기
 	@GetMapping("/{id}")
-	public String getBoard(@PathVariable Long id, Model model) {
+	public String getBoard(@PathVariable Long id, 
+			@PageableDefault(page=1) Pageable pageable, Model model) {
 		//조회수
 		boardService.updateHits(id);
 		//글 상세보기
 		BoardDTO boardDTO = boardService.findById(id);
 		model.addAttribute("board", boardDTO);
+		model.addAttribute("page", pageable.getPageNumber());
 		return "/board/detail";
 	}
 	
@@ -73,9 +130,10 @@ public class BoardController {
 	
 	//글 수정 처리
 	@PostMapping("/update")
-	public String update(@ModelAttribute BoardDTO boardDTO) {
+	public String update(@ModelAttribute BoardDTO boardDTO,
+			MultipartFile boardFile) throws IOException, Exception {
 		//수정후에 글 상세보기로 이동
-		boardService.update(boardDTO);
+		boardService.update(boardDTO, boardFile);
 		return "redirect:/board/" + boardDTO.getId();
 	}
 }
