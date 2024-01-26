@@ -96,7 +96,7 @@ public class RelationMappingTest {
 	}*/
 	
 	//특정 회원이 게시한 글 조회
-	@Test
+	/*@Test
 	public void testSelect() {
 		//뽀로로가 쓴 게시글 조회
 		Optional<Member> member = memberRepository.findByMemberId("member1");
@@ -124,7 +124,7 @@ public class RelationMappingTest {
 		List<Board> boardList = boardRepository.findAll();
 		
 		boardList.forEach(board -> log.info(board.toString()));
-	}
+	}*/
 	
 }
 

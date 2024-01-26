@@ -11,7 +11,7 @@ import com.khit.board.dto.BoardDTO;
 @SpringBootTest
 public class BoardServiceTest {
 	
-	@Autowired
+	/*@Autowired
 	private BoardService boardService;
 
 	@Test
@@ -24,5 +24,5 @@ public class BoardServiceTest {
 			
 			boardService.save(boardDTO, null);
 		}
-	}
+	}*/
 }

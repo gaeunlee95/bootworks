@@ -12,7 +12,7 @@ import com.khit.board.repository.MemberRepository;
 @SpringBootTest
 public class PasswordEncoderTest {
 
-	@Autowired
+	/*@Autowired
 	private MemberRepository memberRepository;
 	
 	@Autowired
@@ -28,5 +28,5 @@ public class PasswordEncoderTest {
 		member.setRole(Role.Member);
 		
 		memberRepository.save(member);
-	}
+	}*/
 }

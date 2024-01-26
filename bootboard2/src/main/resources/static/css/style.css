@@ -48,3 +48,6 @@ header ul{display: flex; justify-content: space-evenly}
   
 /* footer 스타일 */
 footer p{ height: 60px;margin-top: 3px;display: flex;border: outset 2px #ebebeb;border-radius: 10px;justify-content: center;align-items: center;}
+
+/* detail */
+.reply-insert {height: 50px;}
